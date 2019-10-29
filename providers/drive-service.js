@@ -5,6 +5,8 @@ const readline = require('readline');
 const os = require('os');
 const path = require('path');
 const uuid = require('uuid');
+const mime = require('mime-types');
+
 const getLogger = require('../common/logger');
 
 const logger = getLogger('drive-service');
@@ -77,7 +79,6 @@ class DriveService {
                 pageSize: 10,
                 fields: 'nextPageToken, files(id, name)',
             });
-            logger.info('----------------');
 
             const { files } = res.data;
             logger.info(res);
@@ -87,9 +88,11 @@ class DriveService {
             } else {
                 logger.info('No files found.');
             }
+            return files;
         } catch (err) {
             logger.error(`Error listing files: ${err}`);
         }
+        return [];
     }
 
     async upload(fileName) {
@@ -99,8 +102,8 @@ class DriveService {
             name: fileName,
         };
         const media = {
-            mimeType: 'image/jpeg',
-            body: fs.createReadStream('./main.js'),
+            mimeType: mime.lookup(fileName),
+            body: fs.createReadStream(fileName),
         };
         try {
             const res = await drive.files.create(
@@ -126,13 +129,13 @@ class DriveService {
         }
     }
 
-    async downloadFile(fileId) {
+    async downloadFile(fileId, fileName) {
         const drive = await this.getDriveClient();
         const res = await drive.files.get({ fileId, alt: 'media' }, { responseType: 'stream' });
         return new Promise((resolve, reject) => {
             const filePath = path.join(os.tmpdir(), uuid.v4());
             logger.info(`writing to ${filePath}`);
-            const dest = fs.createWriteStream('./main.js.bak');
+            const dest = fs.createWriteStream(`./${fileName}`);
             let progress = 0;
 
             res.data

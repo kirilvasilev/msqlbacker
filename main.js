@@ -1,6 +1,7 @@
 // Modules to control application life and create native browser window
 const path = require('path');
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, Menu, MenuItem } = require('electron');
+const { menubar } = require('menubar');
 const DriveService = require('./providers/drive-service');
 const getLogger = require('./common/logger');
 
@@ -42,16 +43,57 @@ async function createWindow() {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', async () => createWindow());
 
+const mb = menubar({
+    browserWindow: {
+        transparent: true,
+        // resizable: false,
+        width: 330,
+        height: 330,
+        webPreferences: {
+            nodeIntegration: true,
+        },
+    },
+    icon: path.join(__dirname, 'assets/icons/icon_32x32.png'),
+});
+
+// mb.on('ready', () => {
+//   console.log('Menubar app is ready.');
+// });
+
+mb.on('ready', async () => {
+    // createWindow();
+});
+mb.on('after-create-window', async () => {
+    mb.window.webContents.openDevTools({ mode: 'detach' });
+});
+mb.on('right-click', () => {
+    // eslint-disable-next-line no-console
+    console.log('right click');
+    const menu = new Menu();
+    menu.append(new MenuItem({
+        label: 'Resume',
+        click() {
+            console.log('resume clicked');
+        },
+    }));
+    menu.append(new MenuItem({ type: 'separator' }));
+    menu.append(new MenuItem({
+        label: 'Pause',
+        click() {
+            console.log('item 2 clicked');
+        },
+    }));
+    menu.popup();
+});
 // Quit when all windows are closed.
-app.on('window-all-closed', () => {
+mb.on('window-all-closed', () => {
     // On macOS it is common for applications and their menu bar
     // to stay active until the user quits explicitly with Cmd + Q
     if (process.platform !== 'darwin') app.quit();
 });
 
-app.on('activate', () => {
+mb.on('activate', () => {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (mainWindow === null) createWindow();

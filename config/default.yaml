@@ -1,0 +1,15 @@
+databese:
+  host: ''
+  user: ''
+  pass: ''
+drive:
+  clientEmail: ''
+  privateKey: ''
+backup:
+  dir: ''
+  interval: 1440
+  time: '16:00'
+info:
+  lastBackup: ''
+  availableBackups: 0
+  freeSpace: 0

@@ -2,14 +2,63 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Hello World!</title>
+    <title>MSQLBacker</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   </head>
   <body>
-    <h1>Hello World!</h1>
-    We are using Node.js <span id="node-version"></span>,
-    Chromium <span id="chrome-version"></span>,
-    and Electron <span id="electron-version"></span>.
-
+      <div class="row" id="header">
+        <div class="col">
+          <ul class="nav nav-tabs">
+            <li class="nav-item">
+              <a class="nav-link active" href="#">Info</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Backups</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    <div class="container mt-2" id="info">
+      <div class="row">
+        <div class="col">
+          <ul>
+            <li>
+                <h3><span class="badge badge-primary" id="available-backups">Available backups:</span></h3>
+            </li>
+            <li>
+                <h3><span class="badge badge-primary" id="last-backup">Last backup:</span></h3>
+            </li>
+            <li>
+                <h3><span class="badge badge-primary" id="free-space">Available space:</span></h3>
+            </li>
+          </ul>
+        </div>        
+      </div>
+      <div class="row fixed-bottom mb-2">
+        <hr>
+        <div class="col-3"></div>
+        <div class="col-6">
+            <button type="button" class="btn btn-primary d-flex justify-content-center align-content-between"><i class="material-icons mr-1">backup</i>BACKUP</button>
+        </div>
+        <div class="col-3"></div>
+    </div>
+    </div>
+    <div class="container mt-2 d-none" id="backups">
+      <div class="row">
+        <div class="d-flex flex-column ml-5 overflow-auto" id="backups-list"></div>
+      </div>
+      <div class="row fixed-bottom mb-2">
+        <hr>
+        <div class="col-3"></div>
+        <div class="col-6">
+            <button type="button" class="btn btn-primary d-flex justify-content-center align-content-between"><i class="material-icons mr-1">file_download</i>DOWNLOAD</button>
+        </div>
+        <div class="col-3">
+            <button type="button" class="btn btn-danger d-flex justify-content-center align-content-between"><i class="material-icons">delete_forever</i></button>
+        </div>
+      </div>
+    </div>
     <!-- You can also require other files to run in this process -->
     <script src="./renderer.js"></script>
   </body>
