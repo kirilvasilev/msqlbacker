@@ -6,3 +6,4 @@ yarn.lock
 credentials
 token.json
 log
+config/production.yaml

@@ -3,6 +3,7 @@ const path = require('path');
 const { app, BrowserWindow, Menu, MenuItem } = require('electron');
 const { menubar } = require('menubar');
 const DriveService = require('./providers/drive-service');
+const DatabaseService = require('./lib/database/mssql-service');
 const getLogger = require('./common/logger');
 
 const logger = getLogger('drive-service');

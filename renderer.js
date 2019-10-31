@@ -32,6 +32,8 @@ document.querySelectorAll('.nav-link').forEach((element) => {
             backupsList.innerHTML = '';
             driverService.listFiles().then((backups) => {
                 backups.forEach((backup) => {
+                    const li = document.createElement('li');
+                    li.classList.add('list-group-item');
                     const div = document.createElement('div');
                     div.classList.add('custom-control');
                     div.classList.add('custom-checkbox');
@@ -45,7 +47,8 @@ document.querySelectorAll('.nav-link').forEach((element) => {
                     label.innerHTML = backup.name;
                     div.appendChild(input);
                     div.appendChild(label);
-                    backupsList.appendChild(div);
+                    li.appendChild(div);
+                    backupsList.appendChild(li);
                 });
             });
         }

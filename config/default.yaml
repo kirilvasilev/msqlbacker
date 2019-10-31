@@ -1,14 +1,20 @@
-databese:
-  host: ''
+connection:
+  server: ''
   user: ''
-  pass: ''
+  password: ''
+  database: ''
+  pool: {
+    max: 10,
+    min: 0,
+    idleTimeoutMillis: 30000
+  }
 drive:
   clientEmail: ''
   privateKey: ''
 backup:
-  dir: ''
-  interval: 1440
   time: '16:00'
+  location: ''
+  copyLocation: ''
 info:
   lastBackup: ''
   availableBackups: 0
