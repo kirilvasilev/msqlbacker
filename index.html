@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>MSQLBacker</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="index.css" />
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="./node_modules/@fortawesome/fontawesome-free/css/all.min.css"/>
+    <link rel="stylesheet" href="index.css"/>
   </head>
   <body>
       <div class="row" id="header">
@@ -36,13 +37,18 @@
           </ul>
         </div>        
       </div>
+      <div class="row">
+        <div class="col">
+          <div class="progress d-none">
+            <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="upload-progress"></div>
+          </div>
+        </div>
+      </div>
       <div class="row fixed-bottom mb-2">
         <hr>
-        <div class="col-3"></div>
-        <div class="col-6">
-          <button type="button" class="btn btn-primary d-flex justify-content-center align-content-between"><i class="material-icons mr-1">backup</i>BACKUP</button>
+        <div class="col d-flex justify-content-center align-content-between">
+          <button type="button" class="btn btn-primary" onclick="backupToDrive()" id="backup-button"><i class="fas fa-cloud-upload-alt mr-1 mt-1"></i>BACKUP</button>
         </div>
-        <div class="col-3"></div>
     </div>
     </div>
     <div class="container mt-2 d-none" id="backups">
@@ -52,15 +58,31 @@
       <div class="row fixed-bottom mb-2">
         <hr>
         <div class="col-3"></div>
-        <div class="col-5">
-            <button type="button" class="btn btn-primary d-flex justify-content-center align-content-between"><i class="material-icons mr-1">file_download</i>DOWNLOAD</button>
+        <div class="col-6">
+            <button type="button" class="btn btn-primary " onclick="downloadBackup()"><i class="fas fa-cloud-download-alt mr-1 mt-1"></i>DOWNLOAD</button>
         </div>
-        <div class="col-1"></div>
-        <div class="col-3">
-            <button type="button" class="btn btn-danger d-flex justify-content-center align-content-between"><i class="material-icons">delete_forever</i></button>
+        <div class="col-3 d-flex justify-content-end">
+            <button type="button" class="btn btn-danger mr-1" data-toggle="modal" data-target="#confirm-deletion-modal"><i class="fas fa-trash-alt mt-1"></i></button>
         </div>
       </div>
     </div>
+    <div class="modal fade" id="confirm-deletion-modal" tabindex="-1" role="dialog" aria-labelledby="confirmDeletionModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="confirmDeletionModalLabel">Delete selected files?</h5>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="confirmDelete()">DELETE</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+        window.jQuery = window.$ = require('jquery');
+    </script>
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
     <!-- You can also require other files to run in this process -->
     <script src="./renderer.js"></script>
   </body>
