@@ -112,13 +112,15 @@ document.querySelectorAll('.nav-link').forEach((element) => {
             return;
         }
         element.classList.add('active');
-        document.querySelectorAll('.container').forEach((container) => {
-            if (container.getAttribute('id') === element.innerHTML.toLowerCase()) {
-                if (container.classList.contains('d-none')) {
-                    container.classList.remove('d-none');
+        document.querySelectorAll('.section').forEach((section) => {
+            if (section.getAttribute('id') === element.innerHTML.toLowerCase()) {
+                if (section.classList.contains('d-none')) {
+                    section.classList.remove('d-none');
+                    section.classList.add('d-flex');
                 }
             } else {
-                container.classList.add('d-none');
+                section.classList.add('d-none');
+                section.classList.remove('d-flex');
             }
         });
         
@@ -148,12 +150,14 @@ document.querySelectorAll('.dropdown-item').forEach(dropdown => {
             }
         });
 
-        //display settings container
-        document.querySelectorAll('.container').forEach((container) => {
-            if (container.getAttribute('id') === 'settings') {
-                container.classList.remove('d-none');
+        //display settings section
+        document.querySelectorAll('.section').forEach((section) => {
+            if (section.getAttribute('id') === 'settings') {
+                section.classList.remove('d-none');
+                section.classList.add('d-flex');
             } else {
-                container.classList.add('d-none');
+                section.classList.add('d-none');
+                section.classList.remove('d-flex');
             }
         });
 
@@ -161,8 +165,10 @@ document.querySelectorAll('.dropdown-item').forEach(dropdown => {
         document.querySelectorAll('div.settings').forEach(div => {
             if(dropdown.innerHTML.toLowerCase() === div.getAttribute('id')){
                 div.classList.remove('d-none');
+                // div.classList.add('d-flex');
             } else {
                 div.classList.add('d-none');
+                // div.classList.remove('d-flex');
             }
         });
 

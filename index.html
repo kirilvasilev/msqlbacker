@@ -9,142 +9,130 @@
     <link rel="stylesheet" href="index.css"/>
   </head>
   <body>
-      <div class="row" id="header">
-        <div class="col">
-          <ul class="nav nav-tabs">
-            <li class="nav-item">
-              <a class="nav-link active" href="#">Info</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Backups</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Settings</a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Connection</a>
-                <a class="dropdown-item" href="#">Drive</a>
-                <a class="dropdown-item" href="#">Backup</a>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    <div class="container mt-2" id="info">
-      <div class="row">
-        <div class="col">
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-                <h3><span class="badge badge-pill badge-info" id="backups-count">Available backups:</span></h3>
-            </li>
-            <li class="list-group-item">
-                <h3><span class="badge badge-pill badge-info" id="last-backup">Last backup:</span></h3>
-            </li>
-            <li class="list-group-item">
-                <h3><span class="badge badge-pill badge-info" id="free-space">Available space:</span></h3>
-            </li>
-          </ul>
-        </div>        
-      </div>
-      <div class="row">
-        <div class="col">
-          <div class="progress d-none">
-            <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="upload-progress"></div>
+    <div class="app d-flex flex-column">
+      <ul class="nav nav-tabs flex-row">
+        <li class="nav-item">
+          <a class="nav-link active" href="#">Info</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Backups</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Settings</a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="#">Connection</a>
+            <a class="dropdown-item" href="#">Drive</a>
+            <a class="dropdown-item" href="#">Backup</a>
           </div>
-        </div>
-      </div>
-      <div class="row fixed-bottom mb-2">
+        </li>
+      </ul>
+      <!-- info section -->
+      <div class="section mt-2 d-flex flex-column flex-grow-1" id="info">
+        <!-- info list -->
+        <ul class="list-group list-group-flush flex-grow-1">
+          <li class="list-group-item">
+              <h3><span class="badge badge-pill badge-info" id="backups-count">Available backups:</span></h3>
+          </li>
+          <li class="list-group-item">
+              <h3><span class="badge badge-pill badge-info" id="last-backup">Last backup:</span></h3>
+          </li>
+          <li class="list-group-item">
+              <h3><span class="badge badge-pill badge-info" id="free-space">Available space:</span></h3>
+          </li>
+        </ul>
         <hr>
-        <div class="col d-flex justify-content-center align-content-between">
+        <!-- upload progressbar -->
+        <div class="progress d-none">
+          <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="upload-progress"></div>
+        </div>
+        <!-- backup button -->
+        <div class="d-flex justify-content-center mb-2">
           <button type="button" class="btn btn-primary" onclick="backupToDrive()" id="backup-button"><i class="fas fa-cloud-upload-alt mr-1 mt-1"></i>BACKUP</button>
         </div>
-    </div>
-    </div>
-    <div class="container mt-2 d-none" id="backups">
-      <div class="row">
-        <ul class="list-group list-group-flush scrollbox" id="backups-list"></ul>
+
       </div>
-      <div class="row fixed-bottom mb-2">
+      <!-- backups section -->
+      <div class="section mt-2 d-none flex-column flex-grow-1" id="backups">
+        <!-- bachups list -->
+        <ul class="list-group list-group-flush scrollbox flex-grow-1" id="backups-list"></ul>
+        <!-- backup buttons section -->
+        <div class="mb-2 d-flex flex-row">
+          <div class=" d-flex flex-grow-1 justify-content-center">
+            <button type="button" class="btn btn-primary" onclick="downloadBackup()"><i class="fas fa-cloud-download-alt mr-1 mt-1"></i>DOWNLOAD</button>
+          </div>
+          <button type="button" class="btn btn-danger mr-1" data-toggle="modal" data-target="#confirm-deletion-modal"><i class="fas fa-trash-alt mt-1"></i></button>
+        </div>
+      </div>
+      <!-- settings section -->
+      <div class="section mt-2 d-none flex-column flex-grow-1" id="settings">
+        <div class="d-flex flex-column flex-grow-1">
+          <div class="d-none settings" id="connection">
+            <p>Conenction</p>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Server</span>
+              </div>
+              <input type="text" class="form-control" id="connection-server">
+            </div>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text">User</span>
+              </div>
+              <input type="text" class="form-control" id="connection-user">
+            </div>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Password</span>
+              </div>
+              <input type="password" class="form-control" id="connection-password">
+            </div>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Database</span>
+              </div>
+              <input type="text" class="form-control" id="connection-database">
+            </div>
+          </div>
+          <div class="d-none settings" id="drive">
+            <p>Drive</p>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Service User</span>
+              </div>
+              <input type="text" class="form-control" id="drive-service-user">
+            </div>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Provate Key</span>
+              </div>
+              <textarea class="form-control" id="drive-private-key"></textarea>
+            </div>
+          </div>
+          <div class="d-none settings" id="backup">
+            <p>Backup</p>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Time</span>
+              </div>
+              <input type="time" class="form-control" id="backup-time">
+            </div>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Location</span>
+              </div>
+              <input type="text" class="form-control" id="backup-location">
+            </div>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Owner</span>
+              </div>
+              <input type="email" class="form-control" id="backup-owner">
+            </div>
+          </div>
+        </div>
         <hr>
-        <div class="col-3"></div>
-        <div class="col-6">
-            <button type="button" class="btn btn-primary " onclick="downloadBackup()"><i class="fas fa-cloud-download-alt mr-1 mt-1"></i>DOWNLOAD</button>
-        </div>
-        <div class="col-3 d-flex justify-content-end">
-            <button type="button" class="btn btn-danger mr-1" data-toggle="modal" data-target="#confirm-deletion-modal"><i class="fas fa-trash-alt mt-1"></i></button>
-        </div>
-      </div>
-    </div>
-    <div class="container mt-2 d-none" id="settings">
-      <div class="row">
-        <div class="d-none settings" id="connection">
-          <p>Conenction</p>
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text">Server</span>
-            </div>
-            <input type="text" class="form-control" id="connection-server">
-          </div>
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text">User</span>
-            </div>
-            <input type="text" class="form-control" id="connection-user">
-          </div>
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text">Password</span>
-            </div>
-            <input type="password" class="form-control" id="connection-password">
-          </div>
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text">Database</span>
-            </div>
-            <input type="text" class="form-control" id="connection-database">
-          </div>
-        </div>
-        <div class="d-none settings" id="drive">
-          <p>Drive</p>
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text">Service User</span>
-            </div>
-            <input type="text" class="form-control" id="drive-service-user">
-          </div>
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text">Provate Key</span>
-            </div>
-            <textarea class="form-control" id="drive-private-key"></textarea>
-          </div>
-        </div>
-        <div class="d-none settings" id="backup">
-          <p>Backup</p>
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text">Time</span>
-            </div>
-            <input type="time" class="form-control" id="backup-time">
-          </div>
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text">Location</span>
-            </div>
-            <input type="text" class="form-control" id="backup-location">
-          </div>
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text">Owner</span>
-            </div>
-            <input type="email" class="form-control" id="backup-owner">
-          </div>
-        </div>
-      </div>
-      <div class="row fixed-bottom mb-2">
-        <hr>
-        <div class="col-3"></div>
-        <div class="col d-flex justify-content-center align-content-between">
-            <button type="button" class="btn btn-primary " onclick="saveSettings()"><i class="fas fa-cloud-download-alt mr-1 mt-1"></i>SAVE</button>
+        <div class="d-flex flex-row justify-content-center mb-2">
+          <button type="button" class="btn btn-primary " onclick="saveSettings()"><i class="fas fa-cloud-download-alt mr-1 mt-1"></i>SAVE</button>
         </div>
       </div>
     </div>

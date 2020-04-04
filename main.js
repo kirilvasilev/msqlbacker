@@ -8,7 +8,7 @@ const mb = menubar({
         transparent: true,
         resizable: true,
         width: 360,
-        height: 330,
+        height: 385,
         webPreferences: {
             nodeIntegration: true,
             // preload: path.join(__dirname, 'preload.js'),
@@ -30,7 +30,7 @@ mb.on('ready', () => {
     mb.tray.setContextMenu(menu);
 });
 mb.on('after-create-window', () => {
-    // mb.window.webContents.openDevTools({ mode: 'detach' });
+    mb.window.webContents.openDevTools({ mode: 'detach' });
 });
 
 // Quit when all windows are closed.
