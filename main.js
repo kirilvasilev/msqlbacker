@@ -1,15 +1,12 @@
 // Modules to control application life and create native browser window
 const path = require('path');
-const { app } = require('electron');
+const { app, Menu, Tray} = require('electron');
 const { menubar } = require('menubar');
-const fs = require('fs');
-console.log(__filename);
-// Prints: /Users/mjr/example.js
-console.log(__dirname);
+
 const mb = menubar({
     browserWindow: {
         transparent: true,
-        // resizable: false,
+        resizable: true,
         width: 360,
         height: 330,
         webPreferences: {
@@ -21,11 +18,19 @@ const mb = menubar({
     icon: path.join(__dirname, 'assets/icons/icon_20x20.png'),
 });
 
-mb.on('ready', async () => {
-    // createWindow();
+mb.on('ready', () => {
+    const menu = Menu.buildFromTemplate([
+        {
+            label: 'Quit',
+            click() { app.quit(); }
+        }
+    ]);
+
+    mb.tray.setToolTip('Backup database to Google Drive');
+    mb.tray.setContextMenu(menu);
 });
-mb.on('after-create-window', async () => {
-    mb.window.webContents.openDevTools({ mode: 'detach' });
+mb.on('after-create-window', () => {
+    // mb.window.webContents.openDevTools({ mode: 'detach' });
 });
 
 // Quit when all windows are closed.
