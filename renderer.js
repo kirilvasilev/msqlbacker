@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 const { EventEmitter } = require('events');
 const DriveService = require('./lib/providers/drive-service');
 const BackupService = require('./lib/services/backup-service');
@@ -59,35 +58,6 @@ deleteEmitter.on('delete', () => {
     }
 });
 
-document.querySelectorAll('.nav-link').forEach((element) => {
-    element.addEventListener('click', () => {
-        if (element.classList.contains('active')) {
-            return;
-        }
-        document.querySelectorAll('.nav-link').forEach((el) => {
-            el.classList.remove('active');
-        });
-        document.querySelectorAll('.container').forEach((container) => {
-            if (container.getAttribute('id') === element.innerHTML.toLowerCase()) {
-                if (container.classList.contains('d-none')) {
-                    container.classList.remove('d-none');
-                }
-            } else {
-                container.classList.add('d-none');
-            }
-        });
-        element.classList.add('active');
-        switch (element.innerHTML.toLowerCase()) {
-        case 'info': loadInfo();
-            break;
-        case 'backups': loadBackupsList();
-            break;
-        default:
-            break;
-        }
-    });
-});
-
 function backupToDrive() {
     const progressEmitter = new EventEmitter();
     const progressDiv = document.querySelector('div.progress.d-none');
@@ -123,4 +93,83 @@ function confirmDelete() {
     deleteEmitter.emit('delete');
 }
 
+function loadSettings() {
+    //TODO
+}
+
+//Attach navlink event listeners
+document.querySelectorAll('.nav-link').forEach((element) => {
+    element.addEventListener('click', () => {
+        if (element.classList.contains('active')) {
+            return;
+        }
+
+        document.querySelectorAll('.nav-link').forEach((el) => {
+            el.classList.remove('active');
+        });
+        
+        if(element.innerHTML.toLowerCase() === 'settings') {
+            return;
+        }
+        element.classList.add('active');
+        document.querySelectorAll('.container').forEach((container) => {
+            if (container.getAttribute('id') === element.innerHTML.toLowerCase()) {
+                if (container.classList.contains('d-none')) {
+                    container.classList.remove('d-none');
+                }
+            } else {
+                container.classList.add('d-none');
+            }
+        });
+        
+        switch (element.innerHTML.toLowerCase()) {
+        case 'info': loadInfo();
+            break;
+        case 'backups': loadBackupsList();
+            break;
+        default:
+            break;
+        }
+    });
+});
+
+//attach settings submenus event listeners
+document.querySelectorAll('.dropdown-item').forEach(dropdown => {
+    dropdown.addEventListener('click', () => {
+
+        //activate settings tab
+        document.querySelectorAll('.nav-link').forEach((element) => {
+            if (element.innerHTML.toLowerCase() === 'settings') {
+                if (!element.classList.contains('active')) {
+                    element.classList.add('active');
+                }
+            } else {
+                element.classList.remove('active');
+            }
+        });
+
+        //display settings container
+        document.querySelectorAll('.container').forEach((container) => {
+            if (container.getAttribute('id') === 'settings') {
+                container.classList.remove('d-none');
+            } else {
+                container.classList.add('d-none');
+            }
+        });
+
+        //display the correct settings div
+        document.querySelectorAll('div.settings').forEach(div => {
+            if(dropdown.innerHTML.toLowerCase() === div.getAttribute('id')){
+                div.classList.remove('d-none');
+            } else {
+                div.classList.add('d-none');
+            }
+        });
+
+        //load settings at the end
+        loadSettings();
+    });
+});
+
+//Innitial data load
 loadInfo();

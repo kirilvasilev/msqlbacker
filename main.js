@@ -2,7 +2,10 @@
 const path = require('path');
 const { app } = require('electron');
 const { menubar } = require('menubar');
-
+const fs = require('fs');
+console.log(__filename);
+// Prints: /Users/mjr/example.js
+console.log(__dirname);
 const mb = menubar({
     browserWindow: {
         transparent: true,

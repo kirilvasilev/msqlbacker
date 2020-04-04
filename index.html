@@ -18,6 +18,14 @@
             <li class="nav-item">
               <a class="nav-link" href="#">Backups</a>
             </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Settings</a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="#">Connection</a>
+                <a class="dropdown-item" href="#">Drive</a>
+                <a class="dropdown-item" href="#">Backup</a>
+              </div>
+            </li>
           </ul>
         </div>
       </div>
@@ -63,6 +71,80 @@
         </div>
         <div class="col-3 d-flex justify-content-end">
             <button type="button" class="btn btn-danger mr-1" data-toggle="modal" data-target="#confirm-deletion-modal"><i class="fas fa-trash-alt mt-1"></i></button>
+        </div>
+      </div>
+    </div>
+    <div class="container mt-2 d-none" id="settings">
+      <div class="row">
+        <div class="d-none settings" id="connection">
+          <p>Conenction</p>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Server</span>
+            </div>
+            <input type="text" class="form-control" id="connection-server">
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text">User</span>
+            </div>
+            <input type="text" class="form-control" id="connection-user">
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Password</span>
+            </div>
+            <input type="password" class="form-control" id="connection-password">
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Database</span>
+            </div>
+            <input type="text" class="form-control" id="connection-database">
+          </div>
+        </div>
+        <div class="d-none settings" id="drive">
+          <p>Drive</p>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Service User</span>
+            </div>
+            <input type="text" class="form-control" id="drive-service-user">
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Provate Key</span>
+            </div>
+            <textarea class="form-control" id="drive-private-key"></textarea>
+          </div>
+        </div>
+        <div class="d-none settings" id="backup">
+          <p>Backup</p>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Time</span>
+            </div>
+            <input type="time" class="form-control" id="backup-time">
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Location</span>
+            </div>
+            <input type="text" class="form-control" id="backup-location">
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Owner</span>
+            </div>
+            <input type="email" class="form-control" id="backup-owner">
+          </div>
+        </div>
+      </div>
+      <div class="row fixed-bottom mb-2">
+        <hr>
+        <div class="col-3"></div>
+        <div class="col d-flex justify-content-center align-content-between">
+            <button type="button" class="btn btn-primary " onclick="saveSettings()"><i class="fas fa-cloud-download-alt mr-1 mt-1"></i>SAVE</button>
         </div>
       </div>
     </div>
