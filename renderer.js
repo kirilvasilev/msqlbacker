@@ -1,6 +1,8 @@
 const { EventEmitter } = require('events');
+const { ipcRenderer } = require('electron');
 const DriveService = require('./lib/providers/drive-service');
 const BackupService = require('./lib/services/backup-service');
+const _events = require('./constants/_event_constants');
 
 const driveService = new DriveService();
 const backupService = new BackupService();
@@ -94,7 +96,41 @@ function confirmDelete() {
 }
 
 function loadSettings() {
-    //TODO
+    ipcRenderer.send(_events.FETCH_SETTINGS);
+    ipcRenderer.on(_events.HANDLE_FETCH_SETTINGS, (event, settings) => {
+        document.getElementById('connection-server').value = settings.connection.server;
+        document.getElementById('connection-user').value = settings.connection.user;
+        document.getElementById('connection-password').value = settings.connection.password;
+        document.getElementById('connection-database').value = settings.connection.database;
+
+        document.getElementById('drive-service-user').value = settings.drive.serviceUser;
+        document.getElementById('drive-private-key').value = settings.drive.privateKey;
+
+        document.getElementById('backup-time').value = settings.backup.time;
+        document.getElementById('backup-location').value = settings.backup.location;
+        document.getElementById('backup-owner').value = settings.backup.owner;
+    });
+}
+
+function saveSettings() {
+    const settings = {
+        connection: {
+            server: document.getElementById('connection-server').value,
+            user: document.getElementById('connection-user').value,
+            password: document.getElementById('connection-password').value,
+            database: document.getElementById('connection-database').value,
+        },
+        drive: {
+            serviceUser: document.getElementById('drive-service-user').value,
+            privateKey: document.getElementById('drive-private-key').value,
+        },
+        backup: {
+            time: document.getElementById('backup-time').value,
+            location: document.getElementById('backup-location').value,
+            owner: document.getElementById('backup-owner').value,
+        }
+    }
+    ipcRenderer.send(_events.SAVE_SETTINGS, settings);
 }
 
 //Attach navlink event listeners
@@ -165,10 +201,8 @@ document.querySelectorAll('.dropdown-item').forEach(dropdown => {
         document.querySelectorAll('div.settings').forEach(div => {
             if(dropdown.innerHTML.toLowerCase() === div.getAttribute('id')){
                 div.classList.remove('d-none');
-                // div.classList.add('d-flex');
             } else {
                 div.classList.add('d-none');
-                // div.classList.remove('d-flex');
             }
         });
 
