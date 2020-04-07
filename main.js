@@ -2,6 +2,7 @@
 const path = require('path');
 const { app, Menu, ipcMain} = require('electron');
 const { menubar } = require('menubar');
+
 const _events = require('./constants/_event_constants');
 const settingsService = require('./lib/services/settings-service');
 const BackupService = require('./lib/services/backup-service');
@@ -36,7 +37,7 @@ mb.on('ready', () => {
 });
 mb.on('after-create-window', () => {
     backupService.start(mb.window.webContents);
-    // mb.window.webContents.openDevTools({ mode: 'detach' });
+    mb.window.webContents.openDevTools({ mode: 'detach' });
 });
 
 // Quit when all windows are closed.
