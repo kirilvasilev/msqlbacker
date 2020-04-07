@@ -24,17 +24,23 @@ const mb = menubar({
     icon: path.join(__dirname, 'assets/icons/icon_20x20.png'),
 });
 
+function quit() {
+    backupService.destroy();
+    app.quit();
+}
+
 mb.on('ready', () => {
     const menu = Menu.buildFromTemplate([
         {
             label: 'Quit',
-            click() { app.quit(); }
+            click() { quit(); }
         }
     ]);
 
     mb.tray.setToolTip('Backup database to Google Drive');
     mb.tray.setContextMenu(menu);
 });
+
 mb.on('after-create-window', () => {
     backupService.start(mb.window.webContents);
     mb.window.webContents.openDevTools({ mode: 'detach' });
@@ -56,7 +62,7 @@ ipcMain.on(_events.SAVE_SETTINGS, (event, settings) => {
 });
 
 ipcMain.on(_events.BACKUP_TO_DRIVE, (event) => {
-    backupService.backup(mb.window.webContents).then(() => {
+    backupService.backup(mb).then(() => {
         event.sender.send(_events.HANDLE_BACKUP_TO_DRIVE);
     });
 });

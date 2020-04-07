@@ -1,5 +1,5 @@
 const { ipcRenderer } = require('electron');
-const _events = require('./constants/_event_constants');
+const { _events, _app_constants } = require('./constants');
 
 function loadBackupsList() {
     ipcRenderer.send(_events.FETCH_FILES_ON_DRIVE);
@@ -44,6 +44,11 @@ ipcRenderer.on(_events.HANDLE_FETCH_FILES_ON_DRIVE, (event, files) => {
 ipcRenderer.on(_events.HANDLE_FETCH_STORAGE_QUOTA, (event, quota) => {
     const freeSpace = document.getElementById('free-space');
     freeSpace.innerText = `Available space: ${quota.usage}/${quota.limit}`;
+    const freeCloudStorage = Number(quota.limit) - Number(quota.usage);
+    if(freeCloudStorage <= _app_constants.QUOTA_WANING_TRESHOLD) {
+        freeSpace.classList.remove('badge-info');
+        freeSpace.classList.add('badge-warning');
+    }
 });
 
 ipcRenderer.on(_events.REFRESH_DATA, () => {
