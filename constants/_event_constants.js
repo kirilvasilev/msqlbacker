@@ -11,5 +11,6 @@ module.exports = {
     FETCH_STORAGE_QUOTA: 'fetch-storage-quota',
     HANDLE_FETCH_STORAGE_QUOTA: 'handle-fetch-storage-quota',
     DOWNLOAD_FILE_FROM_DRIVE: 'download-file-from-drive',
+    HANDLE_DOWNLOAD_FILE_FROM_DRIVE: 'handle-download-file-from-drive',
     REFRESH_DATA: 'refresh-renderer-data',
 };

@@ -26,8 +26,8 @@
           </div>
         </li>
       </ul>
-      <!-- info section -->
-      <div class="section mt-2 d-flex flex-column flex-grow-1" id="info">
+      <!-- info container -->
+      <div class="container mt-2 d-flex flex-column flex-grow-1" id="info">
         <!-- info list -->
         <ul class="list-group list-group-flush flex-grow-1">
           <li class="list-group-item">
@@ -42,7 +42,7 @@
         </ul>
         <hr>
         <!-- upload progressbar -->
-        <div class="progress d-none mb-2">
+        <div class="progress d-none mb-2" id="upload-progress-div">
           <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="upload-progress"></div>
         </div>
         <!-- backup button -->
@@ -51,11 +51,17 @@
         </div>
 
       </div>
-      <!-- backups section -->
-      <div class="section mt-2 d-none flex-column flex-grow-1" id="backups">
-        <!-- bachups list -->
-        <ul class="list-group list-group-flush scrollbox flex-grow-1" id="backups-list"></ul>
-        <!-- backup buttons section -->
+      <!-- backups container -->
+      <div class="container mt-2 d-none flex-column flex-grow-1" id="backups">
+        <!-- backups list -->
+        <div class="scrollbox d-flex flex-column flex-grow-1">
+          <ul class="list-group list-group-flush" id="backups-list"></ul>
+        </div>
+        <!-- download progress bar -->
+        <div class="progress d-none mt-2" id="download-progress-div">
+          <div class="progress-bar progress-bar-striped bg-info progress-bar-animated" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <!-- backup buttons container -->
         <div class="mb-2 mt-2 d-flex flex-row">
           <div class=" d-flex flex-grow-1 justify-content-center">
             <button type="button" class="btn btn-primary" onclick="downloadBackup()"><i class="fas fa-cloud-download-alt mr-1 mt-1"></i>DOWNLOAD</button>
@@ -63,8 +69,8 @@
           <button type="button" class="btn btn-danger mr-1" data-toggle="modal" data-target="#confirm-deletion-modal"><i class="fas fa-trash-alt mt-1"></i></button>
         </div>
       </div>
-      <!-- settings section -->
-      <div class="section mt-2 d-none flex-column flex-grow-1" id="settings">
+      <!-- settings container -->
+      <div class="container mt-2 d-none flex-column flex-grow-1" id="settings">
         <div class="d-flex flex-column flex-grow-1">
           <div class="d-none settings" id="connection">
             <p>Conenction</p>
@@ -121,12 +127,6 @@
                 <span class="input-group-text">Location</span>
               </div>
               <input type="text" class="form-control" id="backup-location">
-            </div>
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text">Owner</span>
-              </div>
-              <input type="email" class="form-control" id="backup-owner">
             </div>
           </div>
         </div>

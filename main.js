@@ -13,9 +13,9 @@ const driveService = new DriveService();
 const mb = menubar({
     browserWindow: {
         transparent: true,
-        // resizable: true,
+        resizable: false,
         width: 360,
-        height: 385,
+        height: 390,
         webPreferences: {
             nodeIntegration: true,
             // nodeIntegrationInWorker: true,
@@ -43,7 +43,7 @@ mb.on('ready', () => {
 
 mb.on('after-create-window', () => {
     backupService.start(mb.window.webContents);
-    mb.window.webContents.openDevTools({ mode: 'detach' });
+    // mb.window.webContents.openDevTools({ mode: 'detach' });
 });
 
 // Quit when all windows are closed.
@@ -83,6 +83,6 @@ ipcMain.on(_events.FETCH_STORAGE_QUOTA, (event) => {
     });
 });
 
-ipcMain.on(_events.DOWNLOAD_FILE_FROM_DRIVE, (event, file) => {
-    driveService.downloadFile(file.id, file.name).then();
+ipcMain.on(_events.DOWNLOAD_FILE_FROM_DRIVE, (event, files) => {
+    driveService.downloadFile(files, mb).then();
 });

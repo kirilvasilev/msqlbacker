@@ -66,7 +66,7 @@ function backupToDrive() {
 
 ipcRenderer.on(_events.HANDLE_BACKUP_PROGRESS, (event, progress) => {
     const progressBar = document.getElementById('upload-progress');
-    const progressDiv = document.querySelector('div.progress');
+    const progressDiv = document.getElementById('upload-progress-div');
     if (progressDiv.classList.contains('d-none')) {
         progressDiv.classList.remove('d-none');
     }
@@ -75,7 +75,7 @@ ipcRenderer.on(_events.HANDLE_BACKUP_PROGRESS, (event, progress) => {
 });
 
 ipcRenderer.on(_events.HANDLE_BACKUP_TO_DRIVE, () => {
-    const progressDiv = document.querySelector('div.progress');
+    const progressDiv = document.getElementById('upload-progress-div');
     const backupButton = document.getElementById('backup-button');
     loadInfo();
     progressDiv.classList.add('d-none');
@@ -83,20 +83,26 @@ ipcRenderer.on(_events.HANDLE_BACKUP_TO_DRIVE, () => {
 });
 
 function downloadBackup() {
-    const files = document.querySelectorAll('.custom-control-input');
-    files.forEach((file) => {
-        if (file.checked) {
-            ipcRenderer.send(_events.DOWNLOAD_FILE_FROM_DRIVE, {id: file.id, name: file.name});
-        }
-    });
+    const files = Array.from(document.querySelectorAll('.custom-control-input'));
+    const checkedFiles = files.filter(file => file.checked).map(file => { return { id: file.id, name: file.name }});
+    if(checkedFiles.length) {
+        const progressDiv = document.getElementById('download-progress-div');
+        progressDiv.classList.remove('d-none');
+        ipcRenderer.send(_events.DOWNLOAD_FILE_FROM_DRIVE, checkedFiles);
+    }
 }
+
+ipcRenderer.on(_events.HANDLE_DOWNLOAD_FILE_FROM_DRIVE, () => {
+    const progressDiv = document.getElementById('download-progress-div');
+    progressDiv.classList.add('d-none');
+});
 
 function confirmDelete() {
     const files = document.querySelectorAll('.custom-control-input');
     if (files.length) {
         files.forEach((file) => {
             if (file.checked) {
-                ipcRenderer.send(_events.DELETE_FILE,file.id);
+                ipcRenderer.send(_events.DELETE_FILE, file.id);
             }
         });
         setTimeout(loadBackupsList, 2000);
@@ -118,7 +124,6 @@ ipcRenderer.on(_events.HANDLE_FETCH_SETTINGS, (event, settings) => {
 
     document.getElementById('backup-time').value = settings.backup.time;
     document.getElementById('backup-location').value = settings.backup.location;
-    document.getElementById('backup-owner').value = settings.backup.owner;
 });
 
 function saveSettings() {
@@ -136,7 +141,6 @@ function saveSettings() {
         backup: {
             time: document.getElementById('backup-time').value,
             location: document.getElementById('backup-location').value,
-            owner: document.getElementById('backup-owner').value,
         }
     }
     ipcRenderer.send(_events.SAVE_SETTINGS, settings);
@@ -157,15 +161,15 @@ document.querySelectorAll('.nav-link').forEach((element) => {
             return;
         }
         element.classList.add('active');
-        document.querySelectorAll('.section').forEach((section) => {
-            if (section.getAttribute('id') === element.innerHTML.toLowerCase()) {
-                if (section.classList.contains('d-none')) {
-                    section.classList.remove('d-none');
-                    section.classList.add('d-flex');
+        document.querySelectorAll('.container').forEach((container) => {
+            if (container.getAttribute('id') === element.innerHTML.toLowerCase()) {
+                if (container.classList.contains('d-none')) {
+                    container.classList.remove('d-none');
+                    container.classList.add('d-flex');
                 }
             } else {
-                section.classList.add('d-none');
-                section.classList.remove('d-flex');
+                container.classList.add('d-none');
+                container.classList.remove('d-flex');
             }
         });
         
@@ -195,14 +199,14 @@ document.querySelectorAll('.dropdown-item').forEach(dropdown => {
             }
         });
 
-        //display settings section
-        document.querySelectorAll('.section').forEach((section) => {
-            if (section.getAttribute('id') === 'settings') {
-                section.classList.remove('d-none');
-                section.classList.add('d-flex');
+        //display settings container
+        document.querySelectorAll('.container').forEach((container) => {
+            if (container.getAttribute('id') === 'settings') {
+                container.classList.remove('d-none');
+                container.classList.add('d-flex');
             } else {
-                section.classList.add('d-none');
-                section.classList.remove('d-flex');
+                container.classList.add('d-none');
+                container.classList.remove('d-flex');
             }
         });
 

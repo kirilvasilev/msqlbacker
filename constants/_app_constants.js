@@ -1,3 +1,3 @@
 module.exports = {
-    QUOTA_WANING_TRESHOLD: 14.98,
+    QUOTA_WANING_TRESHOLD: 1,
 };
