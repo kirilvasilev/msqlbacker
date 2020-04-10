@@ -1,4 +1,6 @@
 const winston = require('winston');
+const { app } = require('electron');
+const path = require('path');
 
 function getLogger(className) {
     // eslint-disable-next-line object-curly-newline
@@ -12,8 +14,8 @@ function getLogger(className) {
         ),
         defaultMeta: { className },
         transports: [
-            new winston.transports.File({ filename: './log/error.log', level: 'error' }),
-            new winston.transports.File({ filename: './log/msqlbacker.log' }),
+            new winston.transports.File({ filename: path.join(app.getAppPath(), 'logs','error.log'), level: 'error' }),
+            new winston.transports.File({ filename: path.join(app.getAppPath(), 'logs', 'msqlbacker.log'), level: 'info' }),
         ],
     });
 
